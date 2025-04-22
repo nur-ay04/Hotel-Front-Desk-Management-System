@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b5f2014179674677b555cb9792b9082e" Name="Diagram1">
+        <EntityTypeShape EntityType="oteldbModel.Odalar" Width="1.5" PointX="1.375" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="oteldbModel.OdaTurleri" Width="1.5" PointX="0.75" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="oteldbModel.Sehirler" Width="1.5" PointX="3.375" PointY="3.625" IsExpanded="true" />
+        <AssociationConnector Association="oteldbModel.FK_Odalar_OdaTurleri" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="oteldbModel.View_1" Width="1.5" PointX="7.5" PointY="1.375" />
+        <EntityTypeShape EntityType="oteldbModel.Durum" Width="1.5" PointX="3.375" PointY="1.5" />
+        <EntityTypeShape EntityType="oteldbModel.Musteriler" Width="1.5" PointX="5.625" PointY="0.75" />
+        <AssociationConnector Association="oteldbModel.FK_Musteriler_Durum" />
+        <AssociationConnector Association="oteldbModel.FK_Musteriler_OdaTurleri" />
+        <AssociationConnector Association="oteldbModel.FK_Musteriler_Sehirler" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

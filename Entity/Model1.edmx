@@ -1,0 +1,412 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="oteldbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Durum">
+          <Key>
+            <PropertyRef Name="DurumID" />
+          </Key>
+          <Property Name="DurumID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Durum1" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Musteriler">
+          <Key>
+            <PropertyRef Name="MusteriID" />
+          </Key>
+          <Property Name="MusteriID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TC" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Soyad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SehirID" Type="int" Nullable="false" />
+          <Property Name="GelisTarihi" Type="datetime" Nullable="false" />
+          <Property Name="CikisTarihi" Type="datetime" Nullable="false" />
+          <Property Name="DogumTarihi" Type="datetime" Nullable="false" />
+          <Property Name="Telefon" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="OdaTuruID" Type="int" Nullable="false" />
+          <Property Name="DurumID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Odalar">
+          <Key>
+            <PropertyRef Name="OdaID" />
+          </Key>
+          <Property Name="OdaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OdaTuru" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Dolu" Type="char" MaxLength="10" />
+          <Property Name="OdaDurumu" Type="varchar" MaxLength="20" />
+          <Property Name="OdaTuruID" Type="int" />
+        </EntityType>
+        <EntityType Name="OdaTurleri">
+          <Key>
+            <PropertyRef Name="OdaTuruID" />
+          </Key>
+          <Property Name="OdaTuruID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OdaTuru" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Sehirler">
+          <Key>
+            <PropertyRef Name="SehirID" />
+          </Key>
+          <Property Name="SehirID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SehirAd" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'oteldb.dbo.View_1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="View_1">
+          <Key>
+            <PropertyRef Name="TC" />
+            <PropertyRef Name="Ad" />
+            <PropertyRef Name="Soyad" />
+            <PropertyRef Name="GelisTarihi" />
+            <PropertyRef Name="CikisTarihi" />
+            <PropertyRef Name="DogumTarihi" />
+            <PropertyRef Name="Telefon" />
+          </Key>
+          <Property Name="TC" Type="varchar" MaxLength="11" Nullable="false" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Soyad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SehirAd" Type="varchar" MaxLength="100" />
+          <Property Name="GelisTarihi" Type="datetime" Nullable="false" />
+          <Property Name="CikisTarihi" Type="datetime" Nullable="false" />
+          <Property Name="DogumTarihi" Type="datetime" Nullable="false" />
+          <Property Name="Telefon" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="OdaTuru" Type="nvarchar" MaxLength="20" />
+          <Property Name="Durum" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK_Musteriler_Durum">
+          <End Role="Durum" Type="Self.Durum" Multiplicity="1" />
+          <End Role="Musteriler" Type="Self.Musteriler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Durum">
+              <PropertyRef Name="DurumID" />
+            </Principal>
+            <Dependent Role="Musteriler">
+              <PropertyRef Name="DurumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Musteriler_OdaTurleri">
+          <End Role="OdaTurleri" Type="Self.OdaTurleri" Multiplicity="1" />
+          <End Role="Musteriler" Type="Self.Musteriler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OdaTurleri">
+              <PropertyRef Name="OdaTuruID" />
+            </Principal>
+            <Dependent Role="Musteriler">
+              <PropertyRef Name="OdaTuruID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Musteriler_Sehirler">
+          <End Role="Sehirler" Type="Self.Sehirler" Multiplicity="1" />
+          <End Role="Musteriler" Type="Self.Musteriler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sehirler">
+              <PropertyRef Name="SehirID" />
+            </Principal>
+            <Dependent Role="Musteriler">
+              <PropertyRef Name="SehirID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Odalar_OdaTurleri">
+          <End Role="OdaTurleri" Type="Self.OdaTurleri" Multiplicity="0..1" />
+          <End Role="Odalar" Type="Self.Odalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OdaTurleri">
+              <PropertyRef Name="OdaTuruID" />
+            </Principal>
+            <Dependent Role="Odalar">
+              <PropertyRef Name="OdaTuruID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="oteldbModelStoreContainer">
+          <EntitySet Name="Durum" EntityType="Self.Durum" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Musteriler" EntityType="Self.Musteriler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Odalar" EntityType="Self.Odalar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OdaTurleri" EntityType="Self.OdaTurleri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sehirler" EntityType="Self.Sehirler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="View_1" EntityType="Self.View_1" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_1].[TC] AS [TC], 
+    [View_1].[Ad] AS [Ad], 
+    [View_1].[Soyad] AS [Soyad], 
+    [View_1].[SehirAd] AS [SehirAd], 
+    [View_1].[GelisTarihi] AS [GelisTarihi], 
+    [View_1].[CikisTarihi] AS [CikisTarihi], 
+    [View_1].[DogumTarihi] AS [DogumTarihi], 
+    [View_1].[Telefon] AS [Telefon], 
+    [View_1].[OdaTuru] AS [OdaTuru], 
+    [View_1].[Durum] AS [Durum]
+    FROM [dbo].[View_1] AS [View_1]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Musteriler_Durum" Association="Self.FK_Musteriler_Durum">
+            <End Role="Durum" EntitySet="Durum" />
+            <End Role="Musteriler" EntitySet="Musteriler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Musteriler_OdaTurleri" Association="Self.FK_Musteriler_OdaTurleri">
+            <End Role="OdaTurleri" EntitySet="OdaTurleri" />
+            <End Role="Musteriler" EntitySet="Musteriler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Musteriler_Sehirler" Association="Self.FK_Musteriler_Sehirler">
+            <End Role="Sehirler" EntitySet="Sehirler" />
+            <End Role="Musteriler" EntitySet="Musteriler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Odalar_OdaTurleri" Association="Self.FK_Odalar_OdaTurleri">
+            <End Role="OdaTurleri" EntitySet="OdaTurleri" />
+            <End Role="Odalar" EntitySet="Odalar" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="oteldbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Odalar">
+          <Key>
+            <PropertyRef Name="OdaID" />
+          </Key>
+          <Property Name="OdaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OdaTuru" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Dolu" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="OdaDurumu" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="OdaTuruID" Type="Int32" />
+          <NavigationProperty Name="OdaTurleri" Relationship="Self.FK_Odalar_OdaTurleri" FromRole="Odalar" ToRole="OdaTurleri" />
+        </EntityType>
+        <EntityType Name="OdaTurleri">
+          <Key>
+            <PropertyRef Name="OdaTuruID" />
+          </Key>
+          <Property Name="OdaTuruID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OdaTuru" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Odalar" Relationship="Self.FK_Odalar_OdaTurleri" FromRole="OdaTurleri" ToRole="Odalar" />
+          <NavigationProperty Name="Musteriler" Relationship="oteldbModel.FK_Musteriler_OdaTurleri" FromRole="OdaTurleri" ToRole="Musteriler" />
+        </EntityType>
+        <EntityType Name="Sehirler">
+          <Key>
+            <PropertyRef Name="SehirID" />
+          </Key>
+          <Property Name="SehirID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SehirAd" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Musteriler" Relationship="oteldbModel.FK_Musteriler_Sehirler" FromRole="Sehirler" ToRole="Musteriler" />
+        </EntityType>
+        <Association Name="FK_Odalar_OdaTurleri">
+          <End Role="OdaTurleri" Type="Self.OdaTurleri" Multiplicity="0..1" />
+          <End Role="Odalar" Type="Self.Odalar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OdaTurleri">
+              <PropertyRef Name="OdaTuruID" />
+            </Principal>
+            <Dependent Role="Odalar">
+              <PropertyRef Name="OdaTuruID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="oteldbEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Odalar" EntityType="Self.Odalar" />
+          <EntitySet Name="OdaTurleri" EntityType="Self.OdaTurleri" />
+          <EntitySet Name="Sehirler" EntityType="Self.Sehirler" />
+          <AssociationSet Name="FK_Odalar_OdaTurleri" Association="Self.FK_Odalar_OdaTurleri">
+            <End Role="OdaTurleri" EntitySet="OdaTurleri" />
+            <End Role="Odalar" EntitySet="Odalar" />
+          </AssociationSet>
+          <EntitySet Name="View_1" EntityType="oteldbModel.View_1" />
+          <EntitySet Name="Durum" EntityType="oteldbModel.Durum" />
+          <EntitySet Name="Musteriler" EntityType="oteldbModel.Musteriler" />
+          <AssociationSet Name="FK_Musteriler_Durum" Association="oteldbModel.FK_Musteriler_Durum">
+            <End Role="Durum" EntitySet="Durum" />
+            <End Role="Musteriler" EntitySet="Musteriler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Musteriler_OdaTurleri" Association="oteldbModel.FK_Musteriler_OdaTurleri">
+            <End Role="OdaTurleri" EntitySet="OdaTurleri" />
+            <End Role="Musteriler" EntitySet="Musteriler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Musteriler_Sehirler" Association="oteldbModel.FK_Musteriler_Sehirler">
+            <End Role="Sehirler" EntitySet="Sehirler" />
+            <End Role="Musteriler" EntitySet="Musteriler" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="View_1">
+          <Key>
+            <PropertyRef Name="TC" />
+            <PropertyRef Name="Ad" />
+            <PropertyRef Name="Soyad" />
+            <PropertyRef Name="GelisTarihi" />
+            <PropertyRef Name="CikisTarihi" />
+            <PropertyRef Name="DogumTarihi" />
+            <PropertyRef Name="Telefon" />
+          </Key>
+          <Property Name="TC" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Soyad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SehirAd" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GelisTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CikisTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DogumTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Telefon" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="OdaTuru" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Durum" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Durum">
+          <Key>
+            <PropertyRef Name="DurumID" />
+          </Key>
+          <Property Name="DurumID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Durum1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Musteriler" Relationship="oteldbModel.FK_Musteriler_Durum" FromRole="Durum" ToRole="Musteriler" />
+        </EntityType>
+        <EntityType Name="Musteriler">
+          <Key>
+            <PropertyRef Name="MusteriID" />
+          </Key>
+          <Property Name="MusteriID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TC" Type="String" Nullable="false" MaxLength="11" FixedLength="false" Unicode="false" />
+          <Property Name="Ad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Soyad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SehirID" Type="Int32" Nullable="false" />
+          <Property Name="GelisTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CikisTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DogumTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Telefon" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="OdaTuruID" Type="Int32" Nullable="false" />
+          <Property Name="DurumID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Durum" Relationship="oteldbModel.FK_Musteriler_Durum" FromRole="Musteriler" ToRole="Durum" />
+          <NavigationProperty Name="OdaTurleri" Relationship="oteldbModel.FK_Musteriler_OdaTurleri" FromRole="Musteriler" ToRole="OdaTurleri" />
+          <NavigationProperty Name="Sehirler" Relationship="oteldbModel.FK_Musteriler_Sehirler" FromRole="Musteriler" ToRole="Sehirler" />
+        </EntityType>
+        <Association Name="FK_Musteriler_Durum">
+          <End Type="oteldbModel.Durum" Role="Durum" Multiplicity="1" />
+          <End Type="oteldbModel.Musteriler" Role="Musteriler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Durum">
+              <PropertyRef Name="DurumID" />
+            </Principal>
+            <Dependent Role="Musteriler">
+              <PropertyRef Name="DurumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Musteriler_OdaTurleri">
+          <End Type="oteldbModel.OdaTurleri" Role="OdaTurleri" Multiplicity="1" />
+          <End Type="oteldbModel.Musteriler" Role="Musteriler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OdaTurleri">
+              <PropertyRef Name="OdaTuruID" />
+            </Principal>
+            <Dependent Role="Musteriler">
+              <PropertyRef Name="OdaTuruID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Musteriler_Sehirler">
+          <End Type="oteldbModel.Sehirler" Role="Sehirler" Multiplicity="1" />
+          <End Type="oteldbModel.Musteriler" Role="Musteriler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sehirler">
+              <PropertyRef Name="SehirID" />
+            </Principal>
+            <Dependent Role="Musteriler">
+              <PropertyRef Name="SehirID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="oteldbModelStoreContainer" CdmEntityContainer="oteldbEntities2">
+          <EntitySetMapping Name="Odalar">
+            <EntityTypeMapping TypeName="oteldbModel.Odalar">
+              <MappingFragment StoreEntitySet="Odalar">
+                <ScalarProperty Name="OdaID" ColumnName="OdaID" />
+                <ScalarProperty Name="OdaTuru" ColumnName="OdaTuru" />
+                <ScalarProperty Name="Dolu" ColumnName="Dolu" />
+                <ScalarProperty Name="OdaDurumu" ColumnName="OdaDurumu" />
+                <ScalarProperty Name="OdaTuruID" ColumnName="OdaTuruID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OdaTurleri">
+            <EntityTypeMapping TypeName="oteldbModel.OdaTurleri">
+              <MappingFragment StoreEntitySet="OdaTurleri">
+                <ScalarProperty Name="OdaTuruID" ColumnName="OdaTuruID" />
+                <ScalarProperty Name="OdaTuru" ColumnName="OdaTuru" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sehirler">
+            <EntityTypeMapping TypeName="oteldbModel.Sehirler">
+              <MappingFragment StoreEntitySet="Sehirler">
+                <ScalarProperty Name="SehirID" ColumnName="SehirID" />
+                <ScalarProperty Name="SehirAd" ColumnName="SehirAd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_1">
+            <EntityTypeMapping TypeName="oteldbModel.View_1">
+              <MappingFragment StoreEntitySet="View_1">
+                <ScalarProperty Name="Durum" ColumnName="Durum" />
+                <ScalarProperty Name="OdaTuru" ColumnName="OdaTuru" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="DogumTarihi" ColumnName="DogumTarihi" />
+                <ScalarProperty Name="CikisTarihi" ColumnName="CikisTarihi" />
+                <ScalarProperty Name="GelisTarihi" ColumnName="GelisTarihi" />
+                <ScalarProperty Name="SehirAd" ColumnName="SehirAd" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="TC" ColumnName="TC" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Durum">
+            <EntityTypeMapping TypeName="oteldbModel.Durum">
+              <MappingFragment StoreEntitySet="Durum">
+                <ScalarProperty Name="Durum1" ColumnName="Durum1" />
+                <ScalarProperty Name="DurumID" ColumnName="DurumID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Musteriler">
+            <EntityTypeMapping TypeName="oteldbModel.Musteriler">
+              <MappingFragment StoreEntitySet="Musteriler">
+                <ScalarProperty Name="DurumID" ColumnName="DurumID" />
+                <ScalarProperty Name="OdaTuruID" ColumnName="OdaTuruID" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="DogumTarihi" ColumnName="DogumTarihi" />
+                <ScalarProperty Name="CikisTarihi" ColumnName="CikisTarihi" />
+                <ScalarProperty Name="GelisTarihi" ColumnName="GelisTarihi" />
+                <ScalarProperty Name="SehirID" ColumnName="SehirID" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="TC" ColumnName="TC" />
+                <ScalarProperty Name="MusteriID" ColumnName="MusteriID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
